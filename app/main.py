@@ -29,19 +29,35 @@ async def upload_resume(resume: UploadFile):
 
     resume_text = parse_pdf(resume.file)
 
-    candidate_details = analyze_resume(resume_text)
+    try:
+        candidate_details = analyze_resume(resume_text)
+        if isinstance(candidate_details, dict) and "error" in candidate_details:
+            return JSONResponse(content={"error": "Failed to analyze resume: " + candidate_details["error"]}, status_code=500)
 
-    jd_text = ""
-    with open ("resources/job_description.pdf", "rb") as file:
-        jd_text = parse_pdf(file)
+        jd_text = ""
+        with open ("resources/job_description.pdf", "rb") as file:
+            jd_text = parse_pdf(file)
 
-    jd_details = analyze_jd(jd_text)
+        jd_details = analyze_jd(jd_text)
+        if isinstance(jd_details, dict) and "error" in jd_details:
+            return JSONResponse(content={"error": "Failed to analyze job description: " + jd_details["error"]}, status_code=500)
 
-    evaluation = evaluate_candidate(candidate_details, jd_details)
+        evaluation = evaluate_candidate(candidate_details, jd_details)
+        if isinstance(evaluation, dict) and "error" in evaluation:
+            return JSONResponse(content={"error": "Failed to evaluate candidate: " + evaluation["error"]}, status_code=500)
 
-    print("Evaluation result:", evaluation)
+        print("Evaluation result:", evaluation)
 
-    result_json = json.loads(evaluation)
-    return JSONResponse(content=result_json)
+        if isinstance(evaluation, str):
+            try:
+                result_json = json.loads(evaluation)
+            except json.JSONDecodeError as e:
+                return JSONResponse(content={"error": f"Failed to parse evaluation response: {str(e)}"}, status_code=500)
+        else:
+            result_json = evaluation  # In case it's already a dict, but shouldn't happen
+        return JSONResponse(content=result_json)
+    except Exception as e:
+        print("Unexpected error:", str(e))
+        return JSONResponse(content={"error": "Internal server error: " + str(e)}, status_code=500)
     
     
