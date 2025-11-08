@@ -28,7 +28,7 @@ with st.sidebar:
     2. Click "Process Resume" to analyze it.
     3. View the candidate status, feedback, and skill match percentage.
 
-    **Note:** Ensure the API server is running on localhost:8000.
+    **Note:** Ensure the API server is running on localhost:8004.
     """)
 
 # Main content
@@ -49,7 +49,7 @@ with col1:
         if st.button("🚀 Process Resume", type="primary"):
             with st.spinner("Processing resume... Please wait."):
                 response = requests.post(
-                    "http://localhost:8000/screening/",
+                    "http://localhost:8005/screening/",
                     files={"resume": uploaded_file}
                 )
 

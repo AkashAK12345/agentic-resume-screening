@@ -17,6 +17,7 @@ from app.agents.resume_extractor_agent import analyze_resume
 from app.agents.jd_extractor_agent import analyze_jd
 from app.agents.candidate_evaluation_agent import evaluate_candidate
 import json
+from pathlib import Path
 
 app = FastAPI()
 
@@ -35,7 +36,8 @@ async def upload_resume(resume: UploadFile):
             return JSONResponse(content={"error": "Failed to analyze resume: " + candidate_details["error"]}, status_code=500)
 
         jd_text = ""
-        with open ("resources/job_description.pdf", "rb") as file:
+        jd_path = Path(__file__).parent.parent / "resources" / "job_description.pdf"
+        with open(jd_path, "rb") as file:
             jd_text = parse_pdf(file)
 
         jd_details = analyze_jd(jd_text)
