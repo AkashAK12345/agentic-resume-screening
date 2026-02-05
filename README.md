@@ -1,17 +1,67 @@
-How to run the app:
+# Agentic Resume Screening – AI Prototype
 
-1. Install python libraries using the command:
-   - pip install -r requirements.txt
+This project is an AI-powered **prototype** that explores how Large Language Models (LLMs) can assist in resume screening by extracting structured information and comparing resumes with job descriptions.
 
-2. install uvicorn package:
-   - pip install uvicorn
+The aim is to understand how AI can support **early-stage candidate evaluation**, not to build a production-ready system.
 
-3. Start the backend API:
-   Open terminal and go to project folder. Run the following command
-   - uvicorn app.main:app --reload
+---
 
-4. Start the Stremlit UI:
-   in terminal, go to the "ui" folder inside the project and run the command
-   - streamlit run app.py
+## Problem Overview
+Resume screening is time-consuming when recruiters handle large numbers of applications.  
+This prototype explores how AI can:
+- Extract relevant details from resumes
+- Compare candidate profiles with job requirements
+- Generate a structured evaluation output
 
-5. Upload a resume in pdf format to evaluate the candidate.
+---
+
+## Approach
+
+### AI-Centric Design
+- A Large Language Model (LLM) processes resume and job description text
+- Prompts guide the model to extract skills, experience, and relevance
+- Outputs are returned in a structured JSON format for clarity
+
+### High-Level Flow
+Resume PDF  
+   ↓  
+Text Extraction  
+   ↓  
+LLM-based Analysis  
+   ↓  
+Structured Evaluation Output (JSON)
+
+---
+
+## System Implementation (High-Level)
+- FastAPI is used as a lightweight backend to expose the AI logic
+- The backend mainly acts as a delivery layer between input and output
+- The primary focus is on AI behavior and system flow, not backend depth
+
+---
+
+## Key Learnings
+- How prompts influence structured outputs from Large Language Models (LLMs)
+- Importance of clear input and output formats in AI systems
+- How AI logic can be integrated into simple applications
+
+---
+
+## Limitations
+- Output quality depends on the quality and format of resume text
+- No large-scale evaluation or benchmarking was performed
+- The system is not optimized for production use
+
+---
+
+## Technologies Used
+- Python
+- FastAPI
+- Large Language Model (via API)
+- JSON
+
+---
+
+## Conclusion
+This project serves as a proof-of-concept AI prototype to explore AI-assisted resume screening.  
+The focus is on understanding system flow and AI-driven analysis rather than production-level engineering.
